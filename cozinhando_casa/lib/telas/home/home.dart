@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cozinhando_casa/modelos/receita.dart';
+import 'package:cozinhando_casa/telas/detalhes/detalhe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -33,28 +34,35 @@ class HomeState extends State<Home> {
           return ListView.builder(
               itemBuilder: (BuildContext context, int index) {
                 Receita receita = Receita.fromJson(receitas[index]);
-                return _construirCard(receita.titulo, receita.foto);
+                return _construirCard(receita);
               },
               itemCount: receitas == null ? 0 : receitas.length);
         });
   }
 
-  Widget _construirCard(titulo, foto) {
-    return SizedBox(
-      height: 270,
-      child: Card(
+  Widget _construirCard(receita) {
+    return GestureDetector(
+      child: SizedBox(
+        height: 270,
+        child: Card(
           margin: EdgeInsets.all(16),
           child: Column(
             children: <Widget>[
               Stack(
                 children: <Widget>[
-                  _construirImagemCart(foto),
+                  _construirImagemCart(receita.foto),
                   _construirGradienteCard(),
-                  _construirTextoCart(titulo)
+                  _construirTextoCart(receita.titulo)
                 ],
               )
             ],
-          )),
+          ),
+        ),
+      ),
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Detalhe(receita: receita,)));
+      },
     );
   }
 
@@ -62,10 +70,7 @@ class HomeState extends State<Home> {
     return Positioned(
       child: Text(
         titulo,
-        style: TextStyle(
-            fontSize: 20,
-            color: Colors.white
-        ),
+        style: TextStyle(fontSize: 20, color: Colors.white),
       ),
       bottom: 10,
       left: 10,
@@ -91,6 +96,8 @@ class HomeState extends State<Home> {
       height: 238,
     );
   }
+
+
 
   Widget _construirAppBar() {
     return AppBar(title: Text('Cozinhando em Casa'));
