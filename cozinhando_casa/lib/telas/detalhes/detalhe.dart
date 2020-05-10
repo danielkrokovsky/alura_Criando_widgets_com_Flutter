@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Detalhe extends StatelessWidget {
-
   final Receita receita;
 
-  Detalhe({Key key, @required this.receita}):super(key: key);
+  Detalhe({Key key, @required this.receita}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +14,20 @@ class Detalhe extends StatelessWidget {
 
   Widget _construirDetalhe() {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          _construirImagemDetalhe(this.receita.foto),
-          _construirTituloDetalhe(this.receita.titulo),
-          _construirLinhaDetalhe(this.receita.porcoes, this.receita.tempoPreparo),
-          _construirSubtituloDetalhe('Ingrediante'),
-          _construirTextoDetalhe(this.receita.ingredientes),
-          _construirSubtituloDetalhe('Modo Preparo'),
-          _construirTextoDetalhe(this.receita.modoPreparo),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            _construirImagemDetalhe(this.receita.foto),
+            _construirTituloDetalhe(this.receita.titulo),
+            _construirLinhaDetalhe(
+                this.receita.porcoes, this.receita.tempoPreparo),
+            _construirSubtituloDetalhe('Ingrediante'),
+            _construirTextoDetalhe(this.receita.ingredientes),
+            _construirSubtituloDetalhe('Modo Preparo'),
+            _construirTextoDetalhe(this.receita.modoPreparo),
+          ],
+        ),
       ),
       appBar: _construirAppBar(),
     );
@@ -61,7 +64,8 @@ class Detalhe extends StatelessWidget {
 
   Widget _construirTextoDetalhe(texto) {
     return Text(
-      texto
+      texto,
+      textAlign: TextAlign.justify,
     );
   }
 
